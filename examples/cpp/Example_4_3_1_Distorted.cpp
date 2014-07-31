@@ -45,7 +45,6 @@ public:
     glConfig.OGL.Header.API = ovrRenderAPI_OpenGL;
     glConfig.OGL.Header.RTSize= Rift::toOvr(windowSize);
     glConfig.OGL.Header.Multisample = 1;
-    glConfig.OGL.Window = 0;
 
     int distortionCaps = ovrDistortionCap_Vignette
       | ovrDistortionCap_Chromatic
