@@ -1,6 +1,19 @@
 #include "Common.h"
 #include "CubeScene.h"
 
+#if defined WIN32 || __APPLE__
+#define GET_DISPLAY
+// maybe it works for you already!
+#else
+#include <X11/X.h>
+#include <X11/extensions/Xrandr.h>
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_GLX
+#include <GLFW/glfw3native.h>
+#define GET_DISPLAY cfg.PlatformData[0]=(uintptr_t)glfwGetX11Display();
+
+#endif
+
 static const glm::uvec2 WINDOW_SIZE(1280, 800);
 
 struct PerEyeArg {
@@ -27,6 +40,7 @@ public:
     cfg.Header.API = ovrRenderAPI_OpenGL;
     cfg.Header.RTSize = hmdDesc.Resolution;
     cfg.Header.Multisample = 1;
+    GET_DISPLAY
 
     int distortionCaps = ovrDistortionCap_Chromatic;
     ovrEyeRenderDesc eyeRenderDescs[2];
