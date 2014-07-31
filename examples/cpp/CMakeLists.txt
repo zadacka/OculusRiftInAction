@@ -8,6 +8,11 @@ set_target_properties(ExampleCommon PROPERTIES FOLDER "Examples/Shared")
 include_directories(common)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/common)
 
+# Add VTK
+find_package(VTK 5.8 COMPONENTS vtkRenderingOpenGL vtkInteractionStyle vtkRenderingVolumeOpenGL vtkRenderingFreetypeOpenGL NO_MODULE)
+include_directories(${VTK_INCLUDE_DIRS})
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ${VTK_DEFINITIONS})
+
 
 function(make_example FILE PROJECT_FOLDER)
     set(SOURCE_FILES ${FILE})
@@ -41,6 +46,7 @@ function(make_example FILE PROJECT_FOLDER)
     endif()
 
     target_link_libraries(${EXECUTABLE} ExampleCommon ${EXAMPLE_LIBS})
+    target_link_libraries(${EXECUTABLE} ${VTK_LIBRARIES})
     if (RIFT_DEBUG)
         set_property(TARGET ${EXECUTABLE} PROPERTY DEBUG_OUTPUT_NAME ${EXECUTABLE}_d)
     endif()
