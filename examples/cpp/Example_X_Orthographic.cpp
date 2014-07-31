@@ -76,14 +76,17 @@ public:
 //      glMatrixMode(GL_MODELVIEW);
       mv.identity();
 //      glLoadMatrixf(glm::value_ptr(mv.top()));
-      
+
       static Text::FontPtr font = 
-        GlUtils::getFont(Resource::FONTS_INCONSOLATA_MEDIUM_SDFF);
-      font->renderString("World", glm::vec2(-0.5, -0.5));
+	GlUtils::getFont(Resource::FONTS_INCONSOLATA_MEDIUM_SDFF);
+
+      const std::string world = "world";
+      glm::vec2 victor = glm::vec2(-0.5, -0.5);
+      font->renderString(world, victor, 0.0f, 0.0f);
       mv.scale(0.5f);
       GlUtils::drawQuad(glm::vec2(-QUAD_SIZE), glm::vec2(QUAD_SIZE));
-      GlUtils::getFont(Resource::FONTS_INCONSOLATA_MEDIUM_SDFF)->
-        renderString("Hello", glm::vec2(0), 12, 100);
+      //      GlUtils::getFont(Resource::FONTS_INCONSOLATA_MEDIUM_SDFF)->
+      //        renderString("Hello", glm::vec2(0), 12, 100);
       
     });
 
