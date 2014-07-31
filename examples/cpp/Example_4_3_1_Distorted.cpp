@@ -1,5 +1,17 @@
 #include "Common.h"
 
+#if defined WIN32 || __APPLE__
+#define GET_DISPLAY
+// maybe it works for you already!
+#else
+#include <X11/X.h>
+#include <X11/extensions/Xrandr.h>
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_GLX
+#include <GLFW/glfw3native.h>
+#define GET_DISPLAY glConfig.OGL.Disp=glfwGetX11Display();
+#endif
+
 Resource SCENE_IMAGES[2] = {
   Resource::IMAGES_TUSCANY_UNDISTORTED_LEFT_PNG,
   Resource::IMAGES_TUSCANY_UNDISTORTED_RIGHT_PNG
@@ -45,6 +57,7 @@ public:
     glConfig.OGL.Header.API = ovrRenderAPI_OpenGL;
     glConfig.OGL.Header.RTSize= Rift::toOvr(windowSize);
     glConfig.OGL.Header.Multisample = 1;
+    GET_DISPLAY;
 
     int distortionCaps = ovrDistortionCap_Vignette
       | ovrDistortionCap_Chromatic
